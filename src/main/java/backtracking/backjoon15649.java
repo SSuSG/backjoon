@@ -5,36 +5,40 @@ import java.util.List;
 import java.util.Scanner;
 
 public class backjoon15649 {
-    static int n,m;
-    static StringBuilder sb = new StringBuilder();
+    public static int arr[];
+    public static boolean visit[];
+    public static StringBuilder sb;
+
     public static void main(String[] args) {
+        sb = new StringBuilder();
+        int n,m;
         Scanner sc = new Scanner(System.in);
 
         n = sc.nextInt();
         m = sc.nextInt();
-        List<Integer> tempList = new ArrayList<>();
+        arr = new int[m];
+        visit = new boolean[n];
 
-        int[] arr = new int[n+1];
-        for (int i = 1; i <= n; i++) {
-            arr[i] = i;
-        }
-        backtracking(tempList,arr);
-        System.out.println(sb);
+        dfs(n,m,0);
+
 
     }
-    private static void backtracking(List<Integer> tempList, int[] arr){
-        if(tempList.size() == m ){
-            for (Integer integer : tempList) {
-                sb.append(integer+" ");
+
+    private static void dfs(int n, int m, int depth) {
+        if(m == depth){
+            for (int i : arr) {
+                System.out.print(i +" ");
             }
-            sb.append("\n");
-        }else{
-            for (int i = 1 ; i <= n; i++) {
-                if(tempList.contains(arr[i]))
-                    continue;
-                tempList.add(arr[i]);
-                backtracking(tempList, arr);
-                tempList.remove(tempList.size()-1);
+            System.out.println();
+            return;
+        }
+
+        for(int i = 0; i < n ; i++){
+            if(visit[i] == false){
+                visit[i] = true;
+                arr[depth] = i+1;
+                dfs(n,m,depth+1);
+                visit[i] = false;
             }
         }
     }
