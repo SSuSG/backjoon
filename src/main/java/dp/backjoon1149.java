@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class backjoon1149 {
+
     static int[][] dp;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -36,5 +37,7 @@ public class backjoon1149 {
         System.out.println(Math.min(Math.min(dp[n][0],dp[n][1]) , dp[n][2]));
 
     }
+
+
 
 }

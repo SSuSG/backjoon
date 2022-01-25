@@ -17,7 +17,8 @@ public class backjoon11726 {
             dp[3] = 3;
 
             for (int i = 4; i <= n; i++) {
-                dp[i] = cal(i);
+                dp[i] = dp[i-1]+dp[i-2];
+                dp[i] %=10007;
             }
         }else if(n == 2){
             dp[1] = 1;
@@ -25,16 +26,6 @@ public class backjoon11726 {
         }else{
             dp[1] = 1;
         }
-
         System.out.println(dp[n]);
-
-    }
-
-    private static int cal(int i) {
-        int result = 0;
-        for (int j = 1; j < i ; j++) {
-            result += (dp[j]%10007)*(dp[i-j]%10007);
-        }
-        return result%10007;
     }
 }

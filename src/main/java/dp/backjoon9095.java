@@ -14,10 +14,13 @@ public class backjoon9095 {
 
             if(n==3){
                 sb.append(4);
+                sb.append('\n');
             }else if(n==2){
                 sb.append(2);
+                sb.append('\n');
             }else if(n==1){
                 sb.append(1);
+                sb.append('\n');
             }else{
                 dp[3]=4;
                 dp[2]=2;
