@@ -12,22 +12,18 @@ public class backjoon1260 {
     static int map[][];
     static boolean[] visit;
     static int n,m,v;
-
+    static StringBuilder sb;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         StringTokenizer st = new StringTokenizer(br.readLine()," ");
-
+        sb = new StringBuilder();
         n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
         v = Integer.parseInt(st.nextToken());
 
         map = new int[n+1][n+1];
         visit = new boolean[n+1];
-        for (int j = 0; j < n + 1; j++) {
-            Arrays.fill(map[j],0);
-        }
-        Arrays.fill(visit,false);
 
         for (int i = 0; i < m; i++) {
             String edge = br.readLine();
@@ -39,38 +35,44 @@ public class backjoon1260 {
         }
 
         dfs(v);
-        System.out.println();
+        sb.append('\n');
         Arrays.fill(visit, false);
         bfs(v);
+        System.out.println(sb);
 
     }
 
-    private static void bfs(int i) {
+    private static void dfs(int v ) {
+        visit[v] = true;
+        sb.append(v+" ");
+
+        for (int i = 1 ; i <= n ; i++){
+            if(map[v][i] == 1 && visit[i] == false){
+                dfs(i);
+            }
+        }
+
+    }
+
+    private static void bfs(int v ) {
         Queue<Integer> queue = new LinkedList<>();
-        queue.offer(i);
-        visit[i] = true;
+        queue.add(v);
+        visit[v] = true;
+        sb.append(v+" ");
 
-        while (!queue.isEmpty()){
+        while(!queue.isEmpty()){
             int temp = queue.poll();
-            System.out.print(temp+" ");
-
-            for (int j = 1; j < n + 1; j++) {
-                if(map[temp][j] == 1 && visit[j]==false){
-                    queue.offer(j);
-                    visit[j] = true;
+            for (int i = 1 ; i <= n ; i++){
+                if(map[temp][i] == 1 && visit[i] == false){
+                    queue.add(i);
+                    sb.append(i+" ");
+                    visit[i] = true;
                 }
             }
+
         }
+
     }
 
-    private static void dfs(int i) {
-        visit[i] = true;
-        System.out.print(i+" ");
 
-        for (int j = 1 ; j < n+1 ; j++) {
-            if(map[i][j] == 1 && visit[j] == false){
-                dfs(j);
-            }
-        }
-    }
 }
