@@ -51,7 +51,7 @@ public class backjoon14889 {
             for (int j = i+1; j <= n ; j++){
                 if(enter[i] == true && enter[j] == true){
                     start += s[i][j];
-                    start +=  s[j][i];
+                    start += s[j][i];
                 }else if(enter[i] == false && enter[j] == false){
                     link += s[i][j];
                     link +=  s[j][i];
