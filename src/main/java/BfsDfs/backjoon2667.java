@@ -3,16 +3,14 @@ package BfsDfs;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Scanner;
+import java.util.*;
 
 public class backjoon2667 {
     static int[][] arr;
     static boolean[][] visit;
     static ArrayList<Integer> a;
-    static int n , temp;
+    static int n , result;
+    static StringBuilder sb;
 
     static int[][] dirs = {
             {-1,0},
@@ -23,12 +21,12 @@ public class backjoon2667 {
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
+        result =0;
         n = Integer.parseInt(br.readLine());
         arr = new int[n][n];
         visit = new boolean[n][n];
+        a = new ArrayList<>();
 
-        a = new ArrayList<Integer>();
 
         for (int i = 0; i < n; i++) {
             String s = br.readLine();
@@ -39,36 +37,39 @@ public class backjoon2667 {
 
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                temp = 0;
-                if(arr[i][j] == 1 && visit[i][j] == false){
-                    dfs(i,j);
-                }
-                if(temp > 0 ){
-                    a.add(temp);
+                if(arr[i][j] == 1 &&  !visit[i][j]){
+                    bfs(i,j);
+                    result++;
                 }
             }
         }
         Collections.sort(a);
-
-        System.out.println(a.size());
+        System.out.println(result);
         for (Integer integer : a) {
             System.out.println(integer);
         }
+
     }
 
-    private static void dfs(int i, int j) {
-        temp++;
+    private static void bfs(int i, int j) {
         visit[i][j] = true;
+        Queue<int[]> queue = new LinkedList<>();
+        int aptNum = 1;
+        queue.offer(new int[]{i,j});
 
-        for (int[] dir : dirs) {
-            int x = i + dir[0];
-            int y = j + dir[1];
+        while (!queue.isEmpty()){
+            int[] temp = queue.poll();
 
-            if(x >=0 && y >= 0 && x < n && y < n && arr[x][y]==1 && visit[x][y] == false){
-                dfs(x,y);
+            for (int[] dir : dirs) {
+                int nx = temp[0] + dir[0];
+                int ny = temp[1] + dir[1];
+                if(nx >= 0 && ny >= 0 && nx < n && ny < n && arr[nx][ny] == 1 && !visit[nx][ny]){
+                    visit[nx][ny] = true;
+                    aptNum++;
+                    queue.offer(new int[]{nx,ny});
+                }
             }
         }
+        a.add(aptNum);
     }
-
-
 }
