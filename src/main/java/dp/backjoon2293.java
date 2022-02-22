@@ -22,11 +22,12 @@ public class backjoon2293 {
         }
 
         dp[0] = 1;
-        for (int i = 1; i <= n; i++) {
+        for (int i = 1; i <= n ; i++) {
             for (int j = arr[i]; j <= k; j++) {
-                dp[j] += dp[j-arr[i]];
+                dp[j] = dp[j-arr[i]] + dp[j];
             }
         }
+
         System.out.println(dp[k]);
     }
 }
