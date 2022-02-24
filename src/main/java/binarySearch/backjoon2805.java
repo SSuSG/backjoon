@@ -17,11 +17,30 @@ public class backjoon2805 {
         m = Integer.parseInt(st.nextToken());
 
         st = new StringTokenizer(br.readLine());
+        tree = new int[n];
         for (int i = 0; i < n; i++) {
             tree[i] = Integer.parseInt(st.nextToken());
         }
         Arrays.sort(tree);
 
+        int min = 0;
+        int max = tree[n-1];
+        int mid =0;
+        while (min < max ){
+            mid = (min+max)/2;
 
+            long count = 0;
+            for (int i = 0; i < n; i++) {
+                if(mid < tree[i])
+                    count += tree[i] - mid;
+            }
+
+            if(count >= m )
+                min = mid+1;
+            else
+                max = mid;
+
+        }
+        System.out.println(min-1);
     }
 }
