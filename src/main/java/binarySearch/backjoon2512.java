@@ -23,25 +23,49 @@ public class backjoon2512 {
         m = Integer.parseInt(br.readLine());
 
         int min = 0;
-        max++;
-        while (min < max){
-            int mid = (min+max)/2;
-            int sum= 0;
-            for (int price : arr) {
-                //설정한 예산보다 더 많이 요청했을시 설정한 예산만큼만 준다.
-                if(mid < price){
+
+        while(min < max ){
+            int mid = (max + min )/2;
+            int sum = 0;
+
+            for (int i : arr) {
+                if(i >= mid){
                     sum += mid;
                 }else{
-                    sum += price;
+                    sum += i;
                 }
             }
-            //나눠준 예산이 국가예산보다 적은경우 예산을 더 늘린다.
-            if(sum <= m )
-                min = mid+1;
-            else
+
+            if(sum > m){
                 max = mid;
+            }else{
+                min = mid+1;
+            }
         }
         System.out.println(min-1);
+
+
+
+//        int min = 0;
+//        max++;
+//        while (min < max){
+//            int mid = (min+max)/2;
+//            int sum= 0;
+//            for (int price : arr) {
+//                //설정한 예산보다 더 많이 요청했을시 설정한 예산만큼만 준다.
+//                if(mid < price){
+//                    sum += mid;
+//                }else{
+//                    sum += price;
+//                }
+//            }
+//            //나눠준 예산이 국가예산보다 적은경우 예산을 더 늘린다.
+//            if(sum <= m )
+//                min = mid+1;
+//            else
+//                max = mid;
+//        }
+//        System.out.println(min-1);
 
     }
 }

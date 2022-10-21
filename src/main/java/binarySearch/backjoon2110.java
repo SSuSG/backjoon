@@ -22,30 +22,36 @@ public class backjoon2110 {
         }
 
         Arrays.sort(arr);
-        int low = 1;
-        int high = arr[n-1];
-        int distance = 0;
-        while(low < high){
-            int mid = (low+high)/2;
-            int start = arr[0];
-            int cnt = 1;
 
-            for (int i = 1; i < n; i++) {
-                distance = arr[i] - start;
-                if(distance >= mid){
-                    cnt++;
-                    start = arr[i];
-                }
-            }
-            //설치한 공유기의수가 더 많을시 거리를 높여야한다.
-            if(cnt >= c){
-                low = mid+1;
-            }else{
-                //설치한 공유기의수가 더 적을시 거리를 줄여야한다.
+        int low = 1;
+        int high = arr[n-1] - arr[0] +1;
+
+        while(low < high){
+            int mid =(low+high)/2;
+
+            if(canInstall(mid) < c){
                 high = mid;
+            }else{
+                low = mid+1;
             }
 
         }
         System.out.println(low-1);
+
+    }
+
+    private static int canInstall(int distance) {
+        int count = 1;
+        int lastLocate = arr[0];
+
+        for (int i = 1; i < arr.length; i++) {
+
+            if(arr[i] - lastLocate >= distance){
+                count++;
+                lastLocate = arr[i];
+            }
+
+        }
+        return count;
     }
 }
