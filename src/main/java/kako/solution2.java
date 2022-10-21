@@ -39,7 +39,7 @@ public class solution2 {
 
         // 답을 만들수있는게 떨어져있으면 -1
         // 한 수가 goal보다 크면 -1
-
+        return 5;
     }
 
 }
