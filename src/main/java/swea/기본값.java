@@ -14,6 +14,4 @@ public class 기본값 {
             System.out.println("#" + tc + " ");
         }
     }
-
-
 }
