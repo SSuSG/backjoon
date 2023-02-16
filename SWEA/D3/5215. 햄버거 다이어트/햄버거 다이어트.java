@@ -3,7 +3,6 @@ import java.util.*;
 public class Solution {
 	static  int n,l,max;
 	static int[][] arr;
-	static boolean[] isVisit;
 	
 	public static void main(String[] args) throws IOException {
 		//System.setIn(new FileInputStream("res/input_햄버거.txt"));
@@ -19,7 +18,6 @@ public class Solution {
 			l = Integer.parseInt(st.nextToken());
 			max = 0;
 			arr = new int[n][2];
-			isVisit = new boolean[n];
 			for (int i = 0; i < n; i++) {
 				st = new StringTokenizer(br.readLine());
 				arr[i][0] = Integer.parseInt(st.nextToken());
@@ -36,30 +34,14 @@ public class Solution {
 		System.out.println(sb);
 	}
 	
-	static void comb(int cnt ,int startIdx , int targetCnt ) {
-		if(cnt == targetCnt) {
-			int jumsu = 0;
-			int cal = 0;
-			for (int i = 0; i < n; i++) {
-				if(!isVisit[i])
-					continue;
-				
-				jumsu += arr[i][0];
-				cal += arr[i][1];
-			}
-			
+	static void comb(int cnt , int jumsu , int cal) {
+		if(cnt == n) {
 			if(cal <= l && max < jumsu)
 				max = jumsu;
 			return;
 		}
-		
-		for (int i = startIdx; i < n ; i++) {
-			if(isVisit[i])
-				continue;
-			
-			isVisit[i] = true;
-			comb(cnt+1,i+1,targetCnt);
-			isVisit[i] = false;
-		}
+		if(cal+arr[cnt][1] <= l)
+			comb(cnt+1,jumsu+arr[cnt][0],cal+arr[cnt][1]);
+		comb(cnt+1,jumsu,cal);
 	}
 }
