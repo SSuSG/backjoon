@@ -15,7 +15,6 @@ public class Solution {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
         StringTokenizer st = new StringTokenizer(br.readLine());
-
         int t = Integer.parseInt(st.nextToken());
 
         for (int tc = 1; tc <= t; tc++) {
@@ -33,11 +32,9 @@ public class Solution {
                     map[i][j] = Integer.parseInt(st.nextToken());
                 }
             }
-
-
+            
             //벽돌 날리기
             comb(0);
-
             sb.append("#" + tc + " " + min + "\n");
         }
         System.out.println(sb);
@@ -77,7 +74,6 @@ public class Solution {
             return;
 
         }
-
         for (int i = 0; i < w; i++) {
             output[cnt] = i;
             comb(cnt+1);
