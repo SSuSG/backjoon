@@ -51,23 +51,6 @@ public class Main {
 			}
 		}
 		
-		//만약 검은색 스카프가 흰색천의 변과 딱 붙어있을경우 그 둘레를 더해준다
-		//왜냐면 위쪽에서는 검은색스카프가 흰색스카프변에 붙어있을시 둘레의 길이를 더해주지 않았다.
-		//x가 0,100인곳에 검은색 스카프가 있는 경우 
-		for (int y = 0; y < 101; y++) {
-			if(map[y][0])
-				result++;
-			if(map[y][100])
-				result++;
-		}
-		
-		//y가 0,100인곳에 검은색 스카프가 있는 경우 
-		for (int x = 0; x < 101; x++) {
-			if(map[0][x])
-				result++;
-			if(map[100][x])
-				result++;
-		}
 		
 		System.out.println(result);
 	}
