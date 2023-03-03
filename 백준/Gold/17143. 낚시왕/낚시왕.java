@@ -66,7 +66,11 @@ public class Main {
 		
 		while(!q.isEmpty()) {
 			Shark movingShark = q.poll();
-			
+            if(movingShark.d < 2 )
+				movingShark.s %= (2*(r-1));
+			else
+				movingShark.s %= (2*(c-1));
+            
 			//속력만큼 반복
 			for (int i = 0; i < movingShark.s; i++) {
 				int ny = movingShark.y + dirs[movingShark.d][0];
@@ -96,10 +100,6 @@ public class Main {
 		int x;
 		int y;
 		int s;
-		//0 : 상
-		//1 : 하
-		//2 : 우
-		//3 : 좌
 		int d;
 		int z;
 
