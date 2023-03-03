@@ -3,7 +3,7 @@ import java.io.*;
 public class Main {
 	static int n;
 	static List<Point> pointList;						//입력받은 좌표들을 저장
-	static List<Bonguri> bList = new ArrayList<>();		//봉우리를 저장하는 리스트
+	static List<Bonguri> bList = new LinkedList<>();		//봉우리를 저장하는 리스트
 	static boolean[] isContained;						//봉우리가 다른 봉우리에 의해 포함되는지 확인
 	static boolean[] isContain;							//봉우리가 다른 봉우리를 포함하는지 확인
 	
