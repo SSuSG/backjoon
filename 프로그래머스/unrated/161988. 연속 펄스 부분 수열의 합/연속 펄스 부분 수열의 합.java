@@ -20,10 +20,8 @@ class Solution {
         }
         
         for(int i = 0; i < sum.length; i++) {
-            if(max < sum[i])
-                max = sum[i];
-            if(min > sum[i])
-                min = sum[i];
+            max = Math.max(max,sum[i]);
+            min = Math.min(min,sum[i]);
         }
         
         
