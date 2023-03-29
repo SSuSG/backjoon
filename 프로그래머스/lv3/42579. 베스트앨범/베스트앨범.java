@@ -15,7 +15,7 @@ class Solution {
     public int[] solution(String[] genres, int[] plays) {
         int[] answer;
         song[] songs = new song[plays.length];
-        TreeMap<String,Integer> playByGenre = new TreeMap<>();
+        HashMap<String,Integer> playByGenre = new HashMap<>();
         HashMap<String,Integer> genrePriority = new HashMap<>();
         HashMap<String,Integer> songCount = new HashMap<>();
         
