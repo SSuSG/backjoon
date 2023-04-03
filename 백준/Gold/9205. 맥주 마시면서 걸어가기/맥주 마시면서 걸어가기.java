@@ -1,44 +1,71 @@
-import java.io.*;
 import java.util.*;
-
+import java.io.*;
 public class Main {
-	static final int INF = 987654321;
-	static int N;
-	static int [][] dist;
-	static boolean [] v;
+	static int n;
+	static boolean isArrive;
+	static int[][] store;
+	static boolean[] isVisit;
+	static List<ArrayList<Integer>> list;
 	
-	static String dijk() {
-		ArrayDeque<int []> q = new ArrayDeque<>();
-		q.offer(dist[0]);
-		v[0] = true;
-		while (!q.isEmpty()) {
-			int cur[] = q.poll();
-			int x = cur[0], y = cur[1];
-			if (x==dist[N+1][0] && y==dist[N+1][1]) return "happy";
-			for (int i = 1; i < N+2; i++) {
-				if (v[i])continue;
-				if (Math.abs(dist[i][0]-x)+Math.abs(dist[i][1]-y)<=1000) {
-					v[i] = true;
-					q.offer(dist[i]);
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int t = Integer.parseInt(br.readLine());
+		StringBuilder sb = new StringBuilder();
+		StringTokenizer st;
+		
+		for (int tc = 0; tc < t; tc++) {
+			n = Integer.parseInt(br.readLine())+2;
+			store = new int[n][2];
+			isVisit = new boolean[n];
+			list = new ArrayList<>();
+			isArrive = false;
+			for (int i = 0; i < n; i++) {
+				list.add(new ArrayList<>());
+				st = new StringTokenizer(br.readLine());
+				store[i][0] = Integer.parseInt(st.nextToken());
+				store[i][1] = Integer.parseInt(st.nextToken());
+			}
+			
+			for (int i = 0; i < n; i++) {
+				for (int j = i+1; j < n; j++) {
+					float dist = (float)(getDistance(store[i][1], store[i][0], store[j][1], store[j][0])/50.0);
+					if(dist <= 20) {
+						list.get(i).add(j);
+						list.get(j).add(i);
+					}
 				}
 			}
+			bfs();
+			if(isArrive) sb.append("happy\n");
+			else sb.append("sad\n");
+			
 		}
-		return "sad";
+		System.out.println(sb);
 	}
 	
-	public static void main(String[] args) throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int T = Integer.parseInt(br.readLine());
-		for (int t = 0; t < T; t++) {
-			N = Integer.parseInt(br.readLine());
-			dist = new int[N+2][2];
-			v = new boolean[N+2];
-			for (int i = 0; i < N+2; i++) {
-				StringTokenizer st = new StringTokenizer(br.readLine());
-				for (int j = 0; j < 2; j++) 
-					dist[i][j] = Integer.parseInt(st.nextToken());
+	static void bfs() {
+		ArrayDeque<Integer> q = new ArrayDeque<>();
+		q.add(0);
+		isVisit[0] = true;
+		
+		while(!q.isEmpty()) {
+			int cur = q.poll();
+			
+			if(cur == n-1) {
+				isArrive = true;
+				return;
 			}
-			System.out.println(dijk());
+			
+			for (Integer next : list.get(cur)) {
+				if(isVisit[next]) continue;
+				isVisit[next] = true;
+				q.offer(next);
+			}
 		}
 	}
+	
+	static int getDistance(int x1, int y1 , int x2 , int y2) {
+		return Math.abs(x1-x2) + Math.abs(y1-y2);
+	}
+	
 }
