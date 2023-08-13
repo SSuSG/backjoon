@@ -10,7 +10,6 @@ class Solution {
                 dp[i] = -1;
                 continue;
             }
-            
             if(i * 3 <= y){
                 dp[i * 3] = (dp[i * 3] == 0) ? dp[i] + 1 : Math.min(dp[i] + 1, dp[i * 3]);
             }
@@ -24,7 +23,7 @@ class Solution {
             }
             
         }
-        
+
         return dp[y];
     }
 }
