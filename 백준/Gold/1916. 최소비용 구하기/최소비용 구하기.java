@@ -1,78 +1,85 @@
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.PriorityQueue;
+import java.util.StringTokenizer;
+
 public class Main {
-	static int n,m;
-	static int[] distance;
-	static boolean[] isVisit;
-	static List<List<Node>> graph = new ArrayList<>();
-	
-	public static void main(String[] args) throws Exception {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));		
-		StringTokenizer st;
-		n = Integer.parseInt(br.readLine());
-		m = Integer.parseInt(br.readLine());
-		for (int i = 0; i <= n; i++) 
-			graph.add(new ArrayList<>());	
-		distance = new int[n+1];
-		isVisit = new boolean[n+1];
-		Arrays.fill(distance, Integer.MAX_VALUE);
+    static class Node{
+        int idx; //노드의 현위치
+        int cost; //해당 노드까지의 비용
 
-		
-		for (int i = 0; i < m; i++) {
-			st = new StringTokenizer(br.readLine()," ");
-			int start = Integer.parseInt(st.nextToken());
-			int end = Integer.parseInt(st.nextToken());
-			int cost = Integer.parseInt(st.nextToken());
-			
-			graph.get(start).add(new Node(end,cost));
-		}
-		
-		st = new StringTokenizer(br.readLine()," ");
-		int start = Integer.parseInt(st.nextToken());
-		int end = Integer.parseInt(st.nextToken());
-		ds(start);
-		
-		System.out.println(distance[end]);
-	}
-	
-	static void ds(int start) {
-		distance[start] = 0;
-		
-		PriorityQueue<Node> pq = new PriorityQueue<Node>((o1,o2) ->  o1.cost - o2.cost);
-		pq.add(new Node(start,0));
-		
-		while(!pq.isEmpty()) {
-			Node curNode = pq.poll();
-			
-			if(isVisit[curNode.v])
-				continue;
-			isVisit[curNode.v] = true;
-			
-			//현재 정점과 연결된 정점 확인
-			for (Node next : graph.get(curNode.v)) {
-				if(!isVisit[next.v] && distance[next.v] > (distance[curNode.v] + next.cost) ) {
-					distance[next.v] = (distance[curNode.v] + next.cost);
-					pq.add(new Node(next.v , distance[next.v]));
-				}
-			}
-		}
-	}
-	
-	static class Node{
-		int v;
-		int cost;
+        public Node(int idx, int cost) {
+            this.idx = idx;
+            this.cost = cost;
+        }
+    }
 
-		public Node(int v, int cost) {
-			this.v = v;
-			this.cost = cost;
-		}
+    static int n ,m,startPoint,endPoint;
+    static int[] dist;
+    static boolean[] visit;
+    static ArrayList<ArrayList<Node>> graph;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+                n = Integer.parseInt(br.readLine());
+        m = Integer.parseInt(br.readLine());
+        dist = new int[n+1];
+        visit = new boolean[n+1];
 
-		public int getV() {
-			return v;
-		}
+        graph = new ArrayList<>();
+        for (int i = 0; i <= n; i++) {
+            graph.add(new ArrayList<>());
+        }
 
-		public int getCost() {
-			return cost;
-		}
-	}
+        for (int i = 0; i < m; i++) {
+            st = new StringTokenizer(br.readLine());
+            int start = Integer.parseInt(st.nextToken());
+            int end = Integer.parseInt(st.nextToken());
+            int cost = Integer.parseInt(st.nextToken());
+
+            graph.get(start).add(new Node(end,cost));
+        }
+        st = new StringTokenizer(br.readLine());
+        startPoint = Integer.parseInt(st.nextToken());
+        endPoint = Integer.parseInt(st.nextToken());
+
+        //dist[i] -> 출발지점에서 i까지의 최소비용
+        for (int i = 1; i < n+1; i++) {
+            dist[i] = Integer.MAX_VALUE;
+        }
+
+        //출발 지점 0
+        dist[startPoint] = 0;
+
+        //방문하지 않은 노드들(if문 사용)중 !!가장 비용이 적은 노드!!를 선택하기 위한 큐
+        PriorityQueue<Node> queue = new PriorityQueue<>( (o1,o2) -> Integer.compare(o1.cost,o2.cost));
+        //시작지점
+        queue.offer(new Node(startPoint,0));
+
+        while (!queue.isEmpty()){
+            //현재 노드
+            Node curNode = queue.poll();
+            int cur = curNode.idx;
+
+            //현재 노드를 방문한적이 없다면
+            if(!visit[cur]){
+                visit[cur] = true;
+                //현재 노드로 부터 갈수있는 Node들을 꺼내어
+                for (Node node : graph.get(cur)) {
+                    //만약 현재 노드로 부터 갈수있는 노드가 방문한적없고 , 갈수있는 노드의 최소비용 > 현재 노드의 최소비용 + 현재노드와 갈수있는 노드사이의 비용
+                    if(!visit[node.idx] && dist[node.idx] > dist[cur] + node.cost){
+                        //해당 노드로 부터 갈수있는 노드들의 최소비용 갱신
+                        dist[node.idx] = dist[cur] + node.cost;
+                        //갱신해야 하는 주변 노드의수 = 우선 순위큐에 들어가는 노드의 수
+                        queue.offer(new Node(node.idx, dist[node.idx]));
+                    }
+                }
+            }
+
+        }
+        System.out.println(dist[endPoint]);
+
+    }
 }
