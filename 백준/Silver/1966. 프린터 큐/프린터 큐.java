@@ -1,62 +1,52 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.*;
+ import java.util.LinkedList;
+import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
+    static class file{
+        int importance;
+        int seq;
+
+        public file(int importance, int seq) {
+            this.importance = importance;
+            this.seq = seq;
+        }
+    }
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
         StringBuilder sb = new StringBuilder();
 
-        int t = Integer.parseInt(st.nextToken());
-
-        for(int i = 0 ; i < t ; i++){
-            st = new StringTokenizer(br.readLine());
-            int n = Integer.parseInt(st.nextToken());
-            int goalIdx = Integer.parseInt(st.nextToken());
-
-            LinkedList<file> q = new LinkedList<>();
-            st = new StringTokenizer(br.readLine());
-            for(int j = 0 ; j < n ; j++){
-                q.add(new file(j,Integer.parseInt(st.nextToken())));
+        int t = sc.nextInt();
+        for (int i = 0; i < t; i++) {
+            int n = sc.nextInt();
+            int m = sc.nextInt();
+            
+            LinkedList<file> queue = new LinkedList<>();
+            for (int j = 0; j < n; j++) {
+                queue.offer(new file(sc.nextInt(),j));
             }
-
             int count = 0;
-            boolean isInput = false;
-            while(!q.isEmpty()){
-                file cur = q.poll();
+            boolean input = false;
+            while(!queue.isEmpty()){
+                 file temp = queue.poll();
 
-                for(int j = 0 ; j < q.size() ; j++){
-                    if(cur.priority < q.get(j).priority){
-                        q.offer(cur);
-                        isInput = true;
-                        break;
-                    }
-                    isInput = false;
-                }
-
-                if(!isInput){
+                 for (int j = 0; j < queue.size(); j++) {
+                     if( temp.importance < queue.get(j).importance) {
+                         queue.offer(temp);
+                         input = true;
+                         break;
+                     }
+                     input = false;
+                 }
+                if(input == false) {
                     count++;
-                    if(cur.idx == goalIdx){
-                        sb.append(count + "\n");
+                    if(temp.seq == m){
+                        sb.append(count+"\n");
                         break;
                     }
                 }
             }
         }
         System.out.println(sb);
-
-    }
-
-    static class file{
-        int idx;
-        int priority;
-
-        public file(int idx, int priority) {
-            this.idx = idx;
-            this.priority = priority;
-        }
     }
 }
